@@ -187,9 +187,8 @@
     max-width: min(100%, 920px);
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    border: 2px solid #333;
+    border: 2px solid #b8ff00;
     background: #111;
-    border-radius: 10px;
   }
 
   .puzzle-image {
@@ -204,8 +203,7 @@
     background: #1a1a2a;
     display: flex;
     flex-direction: column;
-    border: 1px solid #333;
-    border-radius: 10px;
+    border: 1px solid #b8ff00;
     overflow: hidden;
     min-height: 0;
     min-width: 0;
@@ -247,7 +245,6 @@
     flex-direction: column;
     gap: 14px;
     padding: 0 14px 14px;
-    border-radius: 10px;
     flex-shrink: 0;
   }
 
@@ -468,7 +465,6 @@
       aspect-ratio: auto;
       min-height: 240px;
       max-height: 52dvh;
-      border-radius: 8px;
     }
 
     .puzzle-image {
@@ -485,7 +481,6 @@
     .controls-panel {
       padding: 0 10px 10px;
       gap: 10px;
-      border-radius: 8px;
     }
 
     .controls-section {

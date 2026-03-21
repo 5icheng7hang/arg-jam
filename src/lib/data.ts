@@ -1,5 +1,5 @@
 import type { PageData } from './types';
-import testImg from '../assets/test02.jpg';
+import testImg from '../assets/test03.png';
 
 const COLORS = ['#b8ff00', '#00ffcc', '#ff3366', '#ffaa00', '#aa66ff'];
 
