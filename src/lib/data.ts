@@ -1,7 +1,7 @@
 import type { PageData } from './types';
-import testImg from '../assets/test.jpg';
+import testImg from '../assets/test02.jpg';
 
-const COLORS = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6'];
+const COLORS = ['#b8ff00', '#00ffcc', '#ff3366', '#ffaa00', '#aa66ff'];
 
 export const pages: PageData[] = [
   {
@@ -15,6 +15,13 @@ export const pages: PageData[] = [
       { id: 'c1-1', type: 'input', label: 'What is hidden here?', answer: 'mango', color: COLORS[0] },
       { id: 'c1-2', type: 'dropdown', label: 'Pick the color', options: ['crimson', 'azure', 'olive', 'ivory'], answer: 'azure', color: COLORS[1] },
     ],
+    meta: {
+      longitude: '121.4737°E',
+      latitude: '31.2304°N',
+      captureTime: '公元2084纪年',
+      mission: '区域扫描 Alpha-7',
+    },
+    markdown: `# 任务简报 #01\n\n目标区域已确认。请根据图像信息识别 **标记位置** 的内容。\n\n- 区域编号: \`SEC-A7\`\n- 威胁等级: 低\n- 备注: 初始校准阶段，注意噪声干扰。`,
   },
   {
     id: 'page-2',
@@ -29,6 +36,13 @@ export const pages: PageData[] = [
       { id: 'c2-2', type: 'dropdown', label: 'How many?', options: ['seven', 'twelve', 'three', 'nine'], answer: 'twelve', color: COLORS[3] },
       { id: 'c2-3', type: 'input', label: 'What shape?', answer: 'helix', color: COLORS[4] },
     ],
+    meta: {
+      longitude: '116.4074°E',
+      latitude: '39.9042°N',
+      captureTime: '公元2091纪年',
+      mission: '深层扫描 Beta-3',
+    },
+    markdown: `# 任务简报 #02\n\n多目标已检测。信号分析表明区域内存在 **三个异常源**。\n\n- 信号强度: 中等\n- 解码进度: 47%\n- 警告: 第三象限存在电磁屏蔽。`,
   },
   {
     id: 'page-3',
@@ -41,6 +55,13 @@ export const pages: PageData[] = [
       { id: 'c3-1', type: 'dropdown', label: 'What animal?', options: ['otter', 'falcon', 'lynx', 'bison'], answer: 'falcon', color: COLORS[0] },
       { id: 'c3-2', type: 'input', label: 'Write the word', answer: 'zephyr', color: COLORS[1] },
     ],
+    meta: {
+      longitude: '139.6917°E',
+      latitude: '35.6895°N',
+      captureTime: '公元2076纪年',
+      mission: '追踪协议 Gamma-1',
+    },
+    markdown: `# 任务简报 #03\n\n生物特征已锁定，等待确认。请根据图像中的视觉线索完成鉴定。\n\n- 分类: 生物样本\n- 置信度: 82%\n- 注意: 高频振动可能影响识别精度。`,
   },
   {
     id: 'page-4',
@@ -55,6 +76,13 @@ export const pages: PageData[] = [
       { id: 'c4-2', type: 'dropdown', label: 'Season?', options: ['dusk', 'solstice', 'ember', 'frost'], answer: 'ember', color: COLORS[3] },
       { id: 'c4-3', type: 'input', label: 'Hidden letter', answer: 'quartz', color: COLORS[4] },
     ],
+    meta: {
+      longitude: '2.3522°E',
+      latitude: '48.8566°N',
+      captureTime: '公元2103纪年',
+      mission: '深渊协议 Delta-9',
+    },
+    markdown: `# 任务简报 #04\n\n多层加密信号源已定位。区域内发现 **未知能量场波动**。\n\n- 辐射指数: 偏高\n- 时序偏差: +0.003s\n- 建议: 优先处理核心目标，忽略外围噪声。`,
   },
   {
     id: 'page-5',
@@ -67,5 +95,12 @@ export const pages: PageData[] = [
       { id: 'c5-1', type: 'dropdown', label: 'Material?', options: ['obsidian', 'copper', 'velvet', 'marble'], answer: 'obsidian', color: COLORS[0] },
       { id: 'c5-2', type: 'input', label: 'Final answer', answer: 'nebula', color: COLORS[1] },
     ],
+    meta: {
+      longitude: '???',
+      latitude: '???',
+      captureTime: '公元????纪年',
+      mission: '最终阶段 Omega-0',
+    },
+    markdown: `# 最终简报 #05\n\n所有前置任务已完成。最终目标解锁。\n\n> "真相隐藏在星云之中。"\n\n- 状态: **最终确认**\n- 权限: 最高\n- 祝你好运，特工。`,
   },
 ];

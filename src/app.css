@@ -13,18 +13,19 @@
 }
 
 :root {
-  --bg: #ffffff;
-  --text: #000000;
-  --border: #000000;
-  --hc-font: 'Chicago', 'ChicagoFLF', Geneva, 'Lucida Grande', system-ui, sans-serif;
+  --bg: #0a0a14;
+  --text: #b8ff00;
+  --border: #b8ff0033;
+  --accent: #b8ff00;
+  --surface: #0d0d1a;
+  --hc-font: 'Chicago', 'ChicagoFLF', 'Courier New', monospace, system-ui, sans-serif;
 
   font-family: var(--hc-font);
   font-size: 13px;
   line-height: 1.4;
   color: var(--text);
   background: var(--bg);
-  -webkit-font-smoothing: none;
-  image-rendering: pixelated;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -36,11 +37,8 @@ body {
 
 #app {
   width: 100%;
-  max-width: 430px;
   margin: 0 auto;
   height: 100dvh;
   overflow: hidden;
   position: relative;
-  border-left: 2px solid var(--border);
-  border-right: 2px solid var(--border);
 }

@@ -32,4 +32,13 @@ export interface PageData {
   imageUrl: string;
   overlays: Overlay[];
   controls: Control[];
+  /** Markdown content for the info panel */
+  markdown: string;
+  /** Metadata fields shown beside the image */
+  meta?: {
+    longitude?: string;
+    latitude?: string;
+    captureTime?: string;
+    mission?: string;
+  };
 }

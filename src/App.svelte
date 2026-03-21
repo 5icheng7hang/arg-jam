@@ -41,20 +41,20 @@
     align-items: center;
     justify-content: center;
     height: 100dvh;
-    background: #fff;
+    background: #0a0a14;
     padding: 24px;
   }
 
   .completed-card {
-    border: 2px solid #000;
+    border: 1px solid #b8ff00;
     padding: 32px 24px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    box-shadow: 4px 4px 0px #000;
-    background: #fff;
+    background: #0d0d1a;
+    box-shadow: 0 0 30px #b8ff0022;
   }
 
   .card-title {
@@ -66,12 +66,8 @@
 
   .card-title .hl {
     flex: 1;
-    height: 4px;
-    background: repeating-linear-gradient(
-      to bottom,
-      #000 0px, #000 1px,
-      transparent 1px, transparent 3px
-    );
+    height: 1px;
+    background: #b8ff0044;
   }
 
   .card-title span {
@@ -79,11 +75,12 @@
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
+    color: #b8ff00;
   }
 
   .card-body {
     font-size: 14px;
-    color: #000;
+    color: #b8ff00cc;
   }
 
   .restart-btn {
@@ -91,21 +88,24 @@
     font-size: 14px;
     font-weight: bold;
     font-family: inherit;
-    background: #fff;
-    color: #000;
-    border: 2px solid #000;
-    border-radius: 12px;
+    background: transparent;
+    color: #b8ff00;
+    border: 1px solid #b8ff00;
     cursor: pointer;
-    box-shadow: 2px 2px 0px #000;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+  }
+
+  .restart-btn:hover {
+    background: #b8ff00;
+    color: #0a0a14;
   }
 
   .restart-btn:active {
-    background: #000;
-    color: #fff;
-    box-shadow: none;
-    transform: translate(2px, 2px);
+    background: #9adf00;
+    color: #0a0a14;
+    transform: scale(0.98);
   }
 </style>
