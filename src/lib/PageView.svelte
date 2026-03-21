@@ -55,6 +55,35 @@
       </div>
     </div>
 
+    <div class="briefing-panel">
+      <div class="md-panel-header">
+        <span class="md-panel-label">BRIEFING</span>
+      </div>
+
+      <div class="meta-grid">
+        <div class="info-field">
+          <span class="info-label">经度：</span>
+          <span class="info-value">{page.meta?.longitude || '—'}</span>
+        </div>
+        <div class="info-field">
+          <span class="info-label">纬度：</span>
+          <span class="info-value">{page.meta?.latitude || '—'}</span>
+        </div>
+        <div class="info-field">
+          <span class="info-label">拍摄时间：</span>
+          <span class="info-value">{page.meta?.captureTime || '公元xxx纪年'}</span>
+        </div>
+        <div class="info-field">
+          <span class="info-label">任务目的：</span>
+          <span class="info-value">{page.meta?.mission || '—'}</span>
+        </div>
+      </div>
+
+      <div class="md-content">
+        {@html renderedMd}
+      </div>
+    </div>
+
     <!-- Bottom: controls / inputs -->
     <div class="controls-panel">
       <div class="controls-panel-header">
@@ -83,35 +112,6 @@
         {/each}
       </div>
       <button class="submit-btn" onclick={handleSubmit}>CONFIRM ▶</button>
-    </div>
-
-    <div class="briefing-panel">
-      <div class="md-panel-header">
-        <span class="md-panel-label">BRIEFING</span>
-      </div>
-
-      <div class="meta-grid">
-        <div class="info-field">
-          <span class="info-label">经度：</span>
-          <span class="info-value">{page.meta?.longitude || '—'}</span>
-        </div>
-        <div class="info-field">
-          <span class="info-label">纬度：</span>
-          <span class="info-value">{page.meta?.latitude || '—'}</span>
-        </div>
-        <div class="info-field">
-          <span class="info-label">拍摄时间：</span>
-          <span class="info-value">{page.meta?.captureTime || '公元xxx纪年'}</span>
-        </div>
-        <div class="info-field">
-          <span class="info-label">任务目的：</span>
-          <span class="info-value">{page.meta?.mission || '—'}</span>
-        </div>
-      </div>
-
-      <div class="md-content">
-        {@html renderedMd}
-      </div>
     </div>
   </div>
 </div>
@@ -161,19 +161,15 @@
   }
 
   .content-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
-    grid-template-areas:
-      'image briefing'
-      'controls controls';
+    display: flex;
+    flex-direction: column;
     gap: 12px;
     padding: 12px;
-    align-items: start;
+    align-items: stretch;
   }
 
   /* ── Image panel ── */
   .image-panel {
-    grid-area: image;
     display: flex;
     align-items: stretch;
     justify-content: center;
@@ -199,7 +195,6 @@
   }
 
   .briefing-panel {
-    grid-area: briefing;
     background: #1a1a2a;
     display: flex;
     flex-direction: column;
@@ -238,7 +233,6 @@
   }
 
   .controls-panel {
-    grid-area: controls;
     border: 1px solid #b8ff00;
     background: #0d0d1a;
     display: flex;
@@ -424,14 +418,6 @@
   }
 
   @media (max-width: 900px) {
-    .content-layout {
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        'image'
-        'controls'
-        'briefing';
-    }
-
     .meta-grid {
       grid-template-columns: 1fr 1fr;
     }
