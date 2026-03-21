@@ -9,14 +9,14 @@
 
   let { page, oncorrect }: Props = $props();
 
-  let answers: Record<string, string> = $state({});
+  let answers: string[] = $state([]);
   let shaking = $state(false);
   let revealed = $state(false);
 
   let renderedMd = $derived(marked(page.markdown || ''));
 
   function resetState() {
-    answers = {};
+    answers = [];
     shaking = false;
     revealed = false;
   }
@@ -27,9 +27,7 @@
   });
 
   function handleSubmit() {
-    const allCorrect = page.controls.every(
-      (c) => (answers[c.id] || '').trim().toLowerCase() === c.answer.toLowerCase()
-    );
+    const allCorrect = page.controls.every((c, index) => (answers[index] || '').trim().toLowerCase() === c.answer.toLowerCase());
     if (allCorrect) {
       revealed = true;
       setTimeout(() => oncorrect(), 800);
@@ -90,7 +88,7 @@
         <span class="md-panel-label">INPUT PANEL</span>
       </div>
       <div class="controls-section">
-        {#each page.controls as control (control.id)}
+        {#each page.controls as control, index}
           <div class="control-row">
             <span class="control-label-text">{control.label}</span>
             {#if control.type === 'input'}
@@ -98,10 +96,10 @@
                 type="text"
                 class="control-input"
                 placeholder="..."
-                bind:value={answers[control.id]}
+                bind:value={answers[index]}
               />
             {:else if control.type === 'dropdown'}
-              <select class="control-select" bind:value={answers[control.id]}>
+              <select class="control-select" bind:value={answers[index]}>
                 <option value="" disabled selected>--</option>
                 {#each control.options ?? [] as opt}
                   <option value={opt}>{opt}</option>
