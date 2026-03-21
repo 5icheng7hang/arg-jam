@@ -30,15 +30,16 @@
 
 body {
   margin: 0;
-  overflow: hidden;
-  height: 100dvh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: var(--bg);
 }
 
 #app {
   width: 100%;
   margin: 0 auto;
-  height: 100dvh;
-  overflow: hidden;
+  min-height: 100dvh;
+  overflow: visible;
   position: relative;
 }

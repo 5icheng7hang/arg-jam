@@ -49,41 +49,9 @@
   </div>
 
   <div class="content-layout">
-    <!-- Top: image + briefing side-by-side -->
-    <div class="main-layout">
-      <div class="image-panel">
-        <div class="image-frame">
-          <img src={page.imageUrl} alt="puzzle" class="puzzle-image" />
-        </div>
-      </div>
-
-      <div class="briefing-panel">
-        <div class="md-panel-header">
-          <span class="md-panel-label">BRIEFING</span>
-        </div>
-
-        <div class="meta-grid">
-          <div class="info-field">
-            <span class="info-label">经度：</span>
-            <span class="info-value">{page.meta?.longitude || '—'}</span>
-          </div>
-          <div class="info-field">
-            <span class="info-label">纬度：</span>
-            <span class="info-value">{page.meta?.latitude || '—'}</span>
-          </div>
-          <div class="info-field">
-            <span class="info-label">拍摄时间：</span>
-            <span class="info-value">{page.meta?.captureTime || '公元xxx纪年'}</span>
-          </div>
-          <div class="info-field">
-            <span class="info-label">任务目的：</span>
-            <span class="info-value">{page.meta?.mission || '—'}</span>
-          </div>
-        </div>
-
-        <div class="md-content">
-          {@html renderedMd}
-        </div>
+    <div class="image-panel">
+      <div class="image-frame">
+        <img src={page.imageUrl} alt="puzzle" class="puzzle-image" />
       </div>
     </div>
 
@@ -115,6 +83,35 @@
         {/each}
       </div>
       <button class="submit-btn" onclick={handleSubmit}>CONFIRM ▶</button>
+    </div>
+
+    <div class="briefing-panel">
+      <div class="md-panel-header">
+        <span class="md-panel-label">BRIEFING</span>
+      </div>
+
+      <div class="meta-grid">
+        <div class="info-field">
+          <span class="info-label">经度：</span>
+          <span class="info-value">{page.meta?.longitude || '—'}</span>
+        </div>
+        <div class="info-field">
+          <span class="info-label">纬度：</span>
+          <span class="info-value">{page.meta?.latitude || '—'}</span>
+        </div>
+        <div class="info-field">
+          <span class="info-label">拍摄时间：</span>
+          <span class="info-value">{page.meta?.captureTime || '公元xxx纪年'}</span>
+        </div>
+        <div class="info-field">
+          <span class="info-label">任务目的：</span>
+          <span class="info-value">{page.meta?.mission || '—'}</span>
+        </div>
+      </div>
+
+      <div class="md-content">
+        {@html renderedMd}
+      </div>
     </div>
   </div>
 </div>
@@ -164,26 +161,19 @@
   }
 
   .content-layout {
-    display: flex;
-    flex: 1;
-    min-height: 0;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    grid-template-areas:
+      'image briefing'
+      'controls controls';
     gap: 12px;
     padding: 12px;
-  }
-
-  /* ── Main layout ── */
-  .main-layout {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    align-items: stretch;
-    min-height: 0;
-    overflow: hidden;
-    gap: 12px;
+    align-items: start;
   }
 
   /* ── Image panel ── */
   .image-panel {
+    grid-area: image;
     display: flex;
     align-items: stretch;
     justify-content: center;
@@ -210,14 +200,16 @@
   }
 
   .briefing-panel {
+    grid-area: briefing;
     background: #1a1a2a;
     display: flex;
     flex-direction: column;
     border: 1px solid #333;
     border-radius: 10px;
-    overflow-y: auto;
+    overflow: hidden;
     min-height: 0;
     min-width: 0;
+    align-self: stretch;
   }
 
   .meta-grid {
@@ -248,6 +240,7 @@
   }
 
   .controls-panel {
+    grid-area: controls;
     border: 1px solid #b8ff00;
     background: #0d0d1a;
     display: flex;
@@ -369,7 +362,7 @@
     font-size: 12px;
     line-height: 1.7;
     color: #b8ff00cc;
-    overflow-y: auto;
+    overflow: visible;
     min-height: 0;
   }
 
@@ -434,12 +427,12 @@
   }
 
   @media (max-width: 900px) {
-    .main-layout {
+    .content-layout {
       grid-template-columns: 1fr;
-    }
-
-    .briefing-panel {
-      max-height: none;
+      grid-template-areas:
+        'image'
+        'controls'
+        'briefing';
     }
 
     .meta-grid {
@@ -449,8 +442,10 @@
 
   @media (max-width: 640px) {
     .page-container {
-      height: auto;
       min-height: 100dvh;
+      height: auto;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     .content-layout {
@@ -470,7 +465,15 @@
     }
 
     .image-frame {
+      aspect-ratio: auto;
+      min-height: 240px;
+      max-height: 52dvh;
       border-radius: 8px;
+    }
+
+    .puzzle-image {
+      object-fit: contain;
+      background: #111;
     }
 
     .meta-grid {
