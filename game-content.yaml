@@ -1,0 +1,269 @@
+pages:
+  - id: page-1
+    image: 1.png
+    meta:
+      longitude: 121.440855°E
+      latitude: 31.223228°N
+      captureTime: 公元2084纪年
+      mission: 区域扫描 Alpha-7
+    controls:
+      - type: input
+        label: What is hidden here?
+        answer: mango
+      - type: dropdown
+        label: Pick the color
+        options:
+          - crimson
+          - azure
+          - olive
+          - ivory
+        answer: azure
+    briefing: |
+      # 任务简报 #01
+
+      目标区域已确认。请根据图像信息识别 **标记位置** 的内容。
+
+      - 区域编号: `SEC-A7`
+      - 威胁等级: 低
+      - 备注: 初始校准阶段，注意噪声干扰。
+
+  - id: page-2
+    image: 2.png
+    meta:
+      longitude: 121.440742°E
+      latitude: 31.223045°N
+      captureTime: 公元2091纪年
+      mission: 深层扫描 Beta-3
+    controls:
+      - type: input
+        label: Name the object
+        answer: prism
+      - type: dropdown
+        label: How many?
+        options:
+          - seven
+          - twelve
+          - three
+          - nine
+        answer: twelve
+      - type: input
+        label: What shape?
+        answer: helix
+    briefing: |
+      # 任务简报 #02
+
+      多目标已检测。信号分析表明区域内存在 **三个异常源**。
+
+      - 信号强度: 中等
+      - 解码进度: 47%
+      - 警告: 第三象限存在电磁屏蔽。
+
+  - id: page-3
+    image: 3.png
+    meta:
+      longitude: 121.449180°E
+      latitude: 31.225570°N
+      captureTime: 公元2076纪年
+      mission: 追踪协议 Gamma-1
+    controls:
+      - type: dropdown
+        label: What animal?
+        options:
+          - otter
+          - falcon
+          - lynx
+          - bison
+        answer: falcon
+      - type: input
+        label: Write the word
+        answer: zephyr
+    briefing: |
+      # 任务简报 #03
+
+      生物特征已锁定，等待确认。请根据图像中的视觉线索完成鉴定。
+
+      - 分类: 生物样本
+      - 置信度: 82%
+      - 注意: 高频振动可能影响识别精度。
+
+  - id: page-4
+    image: 4.png
+    meta:
+      longitude: 121.454467°E
+      latitude: 31.228422°N
+      captureTime: 公元2103纪年
+      mission: 深渊协议 Delta-9
+    controls:
+      - type: input
+        label: Type the number
+        answer: phosphor
+      - type: dropdown
+        label: Season?
+        options:
+          - dusk
+          - solstice
+          - ember
+          - frost
+        answer: ember
+      - type: input
+        label: Hidden letter
+        answer: quartz
+    briefing: |
+      # 任务简报 #04
+
+      多层加密信号源已定位。区域内发现 **未知能量场波动**。
+
+      - 辐射指数: 偏高
+      - 时序偏差: +0.003s
+      - 建议: 优先处理核心目标，忽略外围噪声。
+
+  - id: page-5
+    image: 5.png
+    meta:
+      longitude: 121.455070°E
+      latitude: 31.229147°N
+      captureTime: 公元????纪年
+      mission: 最终阶段 Omega-0
+    controls:
+      - type: dropdown
+        label: Material?
+        options:
+          - obsidian
+          - copper
+          - velvet
+          - marble
+        answer: obsidian
+      - type: input
+        label: Final answer
+        answer: nebula
+    briefing: |
+      # 最终简报 #05
+
+      所有前置任务已完成。最终目标解锁。
+
+      > "真相隐藏在星云之中。"
+
+      - 状态: **最终确认**
+      - 权限: 最高
+      - 祝你好运，特工。
+
+  - id: page-6
+    image: 6.png
+    meta:
+      longitude: 121.457397°E
+      latitude: 31.232795°N
+      captureTime: 公元2088纪年
+      mission: 通道校准 Sigma-6
+    controls:
+      - type: input
+        label: Enter the district code
+        answer: lattice
+      - type: dropdown
+        label: Which signal tier is active?
+        options:
+          - amber
+          - cobalt
+          - lime
+          - silver
+        answer: lime
+      - type: input
+        label: Hidden keyword
+        answer: transit
+    briefing: |
+      # 任务简报 #06
+
+      次级通道入口已显现。请确认图像中的关键结构，并完成信号分层识别。
+
+      - 区域状态: 半开放
+      - 通行协议: 已降级
+      - 注记: 该区域存在重复反射，请避免误判边缘轮廓。
+
+  - id: page-7
+    image: 7.png
+    meta:
+      longitude: 121.470300°E
+      latitude: 31.236733°N
+      captureTime: 公元2094纪年
+      mission: 街区扫描 Theta-2
+    controls:
+      - type: dropdown
+        label: Select the anomaly class
+        options:
+          - relay
+          - canopy
+          - archive
+          - harbor
+        answer: relay
+      - type: input
+        label: What is the access word?
+        answer: junction
+    briefing: |
+      # 任务简报 #07
+
+      街区级扫描已完成，图像中检测到多处覆盖标记。请锁定中心目标后再提交结果。
+
+      - 环境噪声: 中
+      - 视差偏移: 低
+      - 指令: 优先识别横向结构与遮挡后的主轮廓。
+
+  - id: page-8
+    image: 8.png
+    meta:
+      longitude: 121.482103°E
+      latitude: 31.238838°N
+      captureTime: 公元2101纪年
+      mission: 立面识别 Kappa-4
+    controls:
+      - type: input
+        label: Name the highlighted form
+        answer: colonnade
+      - type: dropdown
+        label: Which layer is compromised?
+        options:
+          - facade
+          - basement
+          - skyline
+          - transit
+        answer: facade
+      - type: input
+        label: Final token
+        answer: vector
+    briefing: |
+      # 任务简报 #08
+
+      目标立面已被重新采样。请依据柱列、反差边界与框选区域完成识别。
+
+      - 结构完整度: 91%
+      - 异常频段: 8.4Hz
+      - 提示: 主体特征集中在中轴偏左区域。
+
+  - id: page-9
+    image: 9.png
+    meta:
+      longitude: 121.486328°E
+      latitude: 31.239005°N
+      captureTime: 公元2107纪年
+      mission: 终端确认 Lambda-1
+    controls:
+      - type: dropdown
+        label: Identify the active channel
+        options:
+          - north
+          - delta
+          - prism
+          - echo
+        answer: delta
+      - type: input
+        label: Enter the closing phrase
+        answer: skyline
+      - type: input
+        label: Hidden marker
+        answer: orchard
+    briefing: |
+      # 任务简报 #09
+
+      终端确认阶段已开始。该图像用于最后一次区域核验，请综合所有视觉标记作答。
+
+      - 核验等级: 最高
+      - 数据回收率: 99%
+      - 警示: 仅在确认全部目标后提交最终答案。

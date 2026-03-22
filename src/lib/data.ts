@@ -1,82 +1,134 @@
-import type { PageData } from './types';
-import testImg from '../assets/1.png';
+import { load } from 'js-yaml';
+import gameContentRaw from '../../game-content.yaml?raw';
+import type { Control, PageData } from './types';
 
-export const pages: PageData[] = [
-  {
-    id: 'page-1',
-    imageUrl: testImg,
-    controls: [
-      { type: 'input', label: 'What is hidden here?', answer: 'mango' },
-      { type: 'dropdown', label: 'Pick the color', options: ['crimson', 'azure', 'olive', 'ivory'], answer: 'azure' },
-    ],
-    meta: {
-      longitude: '121.4737°E',
-      latitude: '31.2304°N',
-      captureTime: '公元2084纪年',
-      mission: '区域扫描 Alpha-7',
-    },
-    markdown: `# 任务简报 #01\n\n目标区域已确认。请根据图像信息识别 **标记位置** 的内容。\n\n- 区域编号: \`SEC-A7\`\n- 威胁等级: 低\n- 备注: 初始校准阶段，注意噪声干扰。`,
-  },
-  {
-    id: 'page-2',
-    imageUrl: testImg,
-    controls: [
-      { type: 'input', label: 'Name the object', answer: 'prism' },
-      { type: 'dropdown', label: 'How many?', options: ['seven', 'twelve', 'three', 'nine'], answer: 'twelve' },
-      { type: 'input', label: 'What shape?', answer: 'helix' },
-    ],
-    meta: {
-      longitude: '116.4074°E',
-      latitude: '39.9042°N',
-      captureTime: '公元2091纪年',
-      mission: '深层扫描 Beta-3',
-    },
-    markdown: `# 任务简报 #02\n\n多目标已检测。信号分析表明区域内存在 **三个异常源**。\n\n- 信号强度: 中等\n- 解码进度: 47%\n- 警告: 第三象限存在电磁屏蔽。`,
-  },
-  {
-    id: 'page-3',
-    imageUrl: testImg,
-    controls: [
-      { type: 'dropdown', label: 'What animal?', options: ['otter', 'falcon', 'lynx', 'bison'], answer: 'falcon' },
-      { type: 'input', label: 'Write the word', answer: 'zephyr' },
-    ],
-    meta: {
-      longitude: '113.2644°E',
-      latitude: '23.1291°N',
-      captureTime: '公元2076纪年',
-      mission: '追踪协议 Gamma-1',
-    },
-    markdown: `# 任务简报 #03\n\n生物特征已锁定，等待确认。请根据图像中的视觉线索完成鉴定。\n\n- 分类: 生物样本\n- 置信度: 82%\n- 注意: 高频振动可能影响识别精度。`,
-  },
-  {
-    id: 'page-4',
-    imageUrl: testImg,
-    controls: [
-      { type: 'input', label: 'Type the number', answer: 'phosphor' },
-      { type: 'dropdown', label: 'Season?', options: ['dusk', 'solstice', 'ember', 'frost'], answer: 'ember' },
-      { type: 'input', label: 'Hidden letter', answer: 'quartz' },
-    ],
-    meta: {
-      longitude: '104.0665°E',
-      latitude: '30.5728°N',
-      captureTime: '公元2103纪年',
-      mission: '深渊协议 Delta-9',
-    },
-    markdown: `# 任务简报 #04\n\n多层加密信号源已定位。区域内发现 **未知能量场波动**。\n\n- 辐射指数: 偏高\n- 时序偏差: +0.003s\n- 建议: 优先处理核心目标，忽略外围噪声。`,
-  },
-  {
-    id: 'page-5',
-    imageUrl: testImg,
-    controls: [
-      { type: 'dropdown', label: 'Material?', options: ['obsidian', 'copper', 'velvet', 'marble'], answer: 'obsidian' },
-      { type: 'input', label: 'Final answer', answer: 'nebula' },
-    ],
-    meta: {
-      longitude: '114.0579°E',
-      latitude: '22.5431°N',
-      captureTime: '公元????纪年',
-      mission: '最终阶段 Omega-0',
-    },
-    markdown: `# 最终简报 #05\n\n所有前置任务已完成。最终目标解锁。\n\n> "真相隐藏在星云之中。"\n\n- 状态: **最终确认**\n- 权限: 最高\n- 祝你好运，特工。`,
-  },
-];
+const assetModules = import.meta.glob('../assets/*.{png,jpg,jpeg,webp,avif}', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
+
+const assetsByName = Object.fromEntries(
+  Object.entries(assetModules).map(([path, url]) => [path.split('/').pop() ?? path, url]),
+);
+
+interface GameContentConfig {
+  pages: YamlPageConfig[];
+}
+
+interface YamlPageConfig {
+  id: string;
+  image: string;
+  briefing: string;
+  controls: YamlControlConfig[];
+  meta?: {
+    longitude?: string;
+    latitude?: string;
+    captureTime?: string;
+    mission?: string;
+  };
+}
+
+interface YamlControlConfig {
+  type: 'input' | 'dropdown';
+  label: string;
+  answer: string;
+  options?: string[];
+}
+
+function expectObject(value: unknown, field: string): Record<string, unknown> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error(`Invalid game-content.yaml: ${field} must be an object.`);
+  }
+
+  return value as Record<string, unknown>;
+}
+
+function expectString(value: unknown, field: string): string {
+  if (typeof value !== 'string' || value.trim() === '') {
+    throw new Error(`Invalid game-content.yaml: ${field} must be a non-empty string.`);
+  }
+
+  return value;
+}
+
+function optionalString(value: unknown, field: string): string | undefined {
+  if (value === undefined || value === null || value === '') {
+    return undefined;
+  }
+
+  return expectString(value, field);
+}
+
+function parseControls(value: unknown, pageId: string): Control[] {
+  if (!Array.isArray(value) || value.length === 0) {
+    throw new Error(`Invalid game-content.yaml: ${pageId}.controls must be a non-empty array.`);
+  }
+
+  return value.map((controlValue, controlIndex) => {
+    const control = expectObject(controlValue, `${pageId}.controls[${controlIndex}]`);
+    const type = expectString(control.type, `${pageId}.controls[${controlIndex}].type`);
+
+    if (type !== 'input' && type !== 'dropdown') {
+      throw new Error(`Invalid game-content.yaml: ${pageId}.controls[${controlIndex}].type must be input or dropdown.`);
+    }
+
+    const parsedControl: Control = {
+      type,
+      label: expectString(control.label, `${pageId}.controls[${controlIndex}].label`),
+      answer: expectString(control.answer, `${pageId}.controls[${controlIndex}].answer`),
+    };
+
+    if (type === 'dropdown') {
+      if (!Array.isArray(control.options) || control.options.length === 0) {
+        throw new Error(`Invalid game-content.yaml: ${pageId}.controls[${controlIndex}].options must be a non-empty array for dropdown controls.`);
+      }
+
+      parsedControl.options = control.options.map((option, optionIndex) =>
+        expectString(option, `${pageId}.controls[${controlIndex}].options[${optionIndex}]`),
+      );
+    }
+
+    return parsedControl;
+  });
+}
+
+function parsePage(pageValue: unknown, pageIndex: number): PageData {
+  const page = expectObject(pageValue, `pages[${pageIndex}]`);
+  const id = expectString(page.id, `pages[${pageIndex}].id`);
+  const image = expectString(page.image, `${id}.image`);
+  const imageUrl = assetsByName[image];
+
+  if (!imageUrl) {
+    throw new Error(`Invalid game-content.yaml: image '${image}' for ${id} was not found in src/assets.`);
+  }
+
+  const meta = page.meta ? expectObject(page.meta, `${id}.meta`) : undefined;
+
+  return {
+    id,
+    imageUrl,
+    controls: parseControls(page.controls, id),
+    markdown: expectString(page.briefing, `${id}.briefing`),
+    meta: meta
+      ? {
+          longitude: optionalString(meta.longitude, `${id}.meta.longitude`),
+          latitude: optionalString(meta.latitude, `${id}.meta.latitude`),
+          captureTime: optionalString(meta.captureTime, `${id}.meta.captureTime`),
+          mission: optionalString(meta.mission, `${id}.meta.mission`),
+        }
+      : undefined,
+  };
+}
+
+function parseGameContent(raw: string): PageData[] {
+  const parsed = load(raw);
+  const config = expectObject(parsed, 'root') as Partial<GameContentConfig>;
+
+  if (!Array.isArray(config.pages) || config.pages.length === 0) {
+    throw new Error('Invalid game-content.yaml: pages must be a non-empty array.');
+  }
+
+  return config.pages.map(parsePage);
+}
+
+export const pages: PageData[] = parseGameContent(gameContentRaw);
