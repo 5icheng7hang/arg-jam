@@ -67,7 +67,11 @@
   });
 
   function handleSubmit() {
-    const allCorrect = page.controls.every((c, index) => (answers[index] || '').trim().toLowerCase() === c.answer.toLowerCase());
+    const allCorrect = page.controls.every((c, index) => {
+      const userAnswer = (answers[index] || '').trim().toLowerCase();
+      const correctAnswers = Array.isArray(c.answer) ? c.answer : [c.answer];
+      return correctAnswers.some(ans => userAnswer === ans.toLowerCase());
+    });
     if (allCorrect) {
       revealed = true;
       setTimeout(() => oncorrect(), 800);

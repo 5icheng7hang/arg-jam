@@ -31,8 +31,18 @@ interface YamlPageConfig {
 interface YamlControlConfig {
   type: 'input' | 'dropdown';
   label: string;
-  answer: string;
+  answer: string | string[];
   options?: string[];
+}
+
+function parseAnswer(value: unknown, field: string): string | string[] {
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      throw new Error(`Invalid game-content.yaml: ${field} must not be an empty array.`);
+    }
+    return value.map((item, index) => expectString(item, `${field}[${index}]`));
+  }
+  return expectString(value, field);
 }
 
 function expectObject(value: unknown, field: string): Record<string, unknown> {
@@ -75,7 +85,7 @@ function parseControls(value: unknown, pageId: string): Control[] {
     const parsedControl: Control = {
       type,
       label: expectString(control.label, `${pageId}.controls[${controlIndex}].label`),
-      answer: expectString(control.answer, `${pageId}.controls[${controlIndex}].answer`),
+      answer: parseAnswer(control.answer, `${pageId}.controls[${controlIndex}].answer`),
     };
 
     if (type === 'dropdown') {

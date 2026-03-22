@@ -9,7 +9,9 @@ pages:
     controls:
       - type: input
         label: 收集牌1处的正确汉字
-        answer: "中国建设银行"
+        answer:
+          - "中国建设银行"
+          - "holograven"
     briefing: |
       # 任务简报 #01：金阁幻影 (The Golden Phantom)
 
@@ -18,7 +20,7 @@ pages:
       - **情报摘要**: 
         根据最新获取的旧时代数据库对比，该区域发现了一处本不该存在的结构体。图像显示其外形与世界著名历史遗迹**"金阁寺"**高度重合。
 
-      - **调查重点：深度背景解析**: 
+      - **调查重点：**: 
         根据旧纪元（2026年前）历史档案显示，**金阁（Kinkaku）**正式名称为鹿苑寺，原址位于日本京都北山。它是14世纪室町时代幕府将军足利义满的行邸，是极简禅宗美学与贵族华丽风格碰撞的巅峰之作。
 
         其核心结构为一座三层楼阁：二、三层外壁全部漆以纯金金箔，顶端屹立着一只象征重生的展翅金凤凰。即便在旧时代的数次动荡与1950年的焚毁事件中，它都如同不死鸟般被原地重建。
@@ -40,14 +42,15 @@ pages:
       mission: 深层扫描 Beta-3
     controls:
       - type: input
-        label: 密码是1111
-        answer: "1111"
-      - type: dropdown
-        label: 你瞅啥
-        options:
-          - 没啥
-          - 瞅你咋地
-        answer: 瞅你咋地
+        label: 收集2处的中文字符
+        answer:
+          - "南京西路"
+          - "holograven"
+      - type: input
+        label: 收集3处的中文字符
+        answer:
+          - "淮海中路"
+          - "holograven"
     briefing: |
       # 任务简报 #02
 
@@ -66,14 +69,10 @@ pages:
       mission: 追踪协议 Gamma-1
     controls:
       - type: input
-        label: 密码是1111
-        answer: "1111"
-      - type: dropdown
-        label: 你瞅啥
-        options:
-          - 没啥
-          - 瞅你咋地
-        answer: 瞅你咋地
+        label: 该建筑体拥有金色五角星数量为
+        answer:
+          - "3"
+          - "holograven"
     briefing: |
       # 任务简报 #03
 
@@ -92,22 +91,18 @@ pages:
       mission: 深渊协议 Delta-9
     controls:
       - type: input
-        label: 密码是1111
-        answer: "1111"
-      - type: dropdown
-        label: 你瞅啥
-        options:
-          - 没啥
-          - 瞅你咋地
-        answer: 瞅你咋地
+        label: 路牌右侧建筑外墙上的米白色寄生体数量为
+        answer:
+          - "1111"
+          - "holograven"
     briefing: |
       # 任务简报 #04
 
-      多层加密信号源已定位。区域内发现 **未知能量场波动**。
+      多层加密信号源已定位。区域内发现 **米白色寄生体**。
 
       - 辐射指数: 偏高
-      - 时序偏差: +0.003s
-      - 建议: 优先处理核心目标，忽略外围噪声。
+      - 个体特征：米白色铁质感表面，呈现规则孔洞纹理，部分个体显示曾有微弱的生物活动迹象，产生循环噪声。
+      - 建议: 优先计算目标数量，严禁直接接触或干扰其表面结构。
 
   - id: page-5
     image: 5.png
@@ -117,15 +112,13 @@ pages:
       captureTime: 公元????纪年
       mission: 最终阶段 Omega-0
     controls:
-      - type: input
-        label: 密码是1111
-        answer: "1111"
       - type: dropdown
-        label: 你瞅啥
+        label: 这座屋子曾属于谁
         options:
-          - 没啥
-          - 瞅你咋地
-        answer: 瞅你咋地
+          - 猫
+          - 狗
+          - 鹅
+        answer: 鹅
     briefing: |
       # 最终简报 #05
 
@@ -135,7 +128,7 @@ pages:
 
       - 状态: **最终确认**
       - 权限: 最高
-      - 祝你好运，特工。
+      - 祝你好运，猎人。
 
   - id: page-6
     image: 6.png
@@ -146,14 +139,10 @@ pages:
       mission: 通道校准 Sigma-6
     controls:
       - type: input
-        label: 密码是1111
-        answer: "1111"
-      - type: dropdown
-        label: 你瞅啥
-        options:
-          - 没啥
-          - 瞅你咋地
-        answer: 瞅你咋地
+        label: 获取这艘船的英文编码
+        answer:
+          - "the louis"
+          - "holograven"
     briefing: |
       # 任务简报 #06
 
@@ -172,14 +161,10 @@ pages:
       mission: 街区扫描 Theta-2
     controls:
       - type: input
-        label: 密码是1111
-        answer: "1111"
-      - type: dropdown
-        label: 你瞅啥
-        options:
-          - 没啥
-          - 瞅你咋地
-        answer: 瞅你咋地
+        label: 获取纪念石碑上的文字信息
+        answer:
+          - "南京路步行街"
+          - "holograven"
     briefing: |
       # 任务简报 #07
 
@@ -198,14 +183,10 @@ pages:
       mission: 立面识别 Kappa-4
     controls:
       - type: input
-        label: 密码是1111
-        answer: "1111"
-      - type: dropdown
-        label: 你瞅啥
-        options:
-          - 没啥
-          - 瞅你咋地
-        answer: 瞅你咋地
+        label: 此建筑的真实名称是
+        answer:
+          - "圣三一堂"
+          - "holograven"
     briefing: |
       # 任务简报 #08
 
@@ -224,18 +205,14 @@ pages:
       mission: 终端确认 Lambda-1
     controls:
       - type: input
-        label: 密码是1111
-        answer: "1111"
-      - type: dropdown
-        label: 你瞅啥
-        options:
-          - 没啥
-          - 瞅你咋地
-        answer: 瞅你咋地
+        label: 输入正确的密码以获得飞船访问权限
+        answer:
+          - "11030413"
+          - "holograven"
     briefing: |
       # 任务简报 #09
 
-      终端确认阶段已开始。该图像用于最后一次区域核验，请综合所有视觉标记作答。
+      终端撤离阶段已开始。该图像用于最后一次区域核验，请综合所有视觉标记作答。
 
       - 核验等级: 最高
       - 数据回收率: 99%

@@ -3,8 +3,8 @@ export interface Control {
   label: string;
   /** Options for dropdown type */
   options?: string[];
-  /** The correct answer for validation */
-  answer: string;
+  /** The correct answer(s) for validation */
+  answer: string | string[];
 }
 
 export interface PageData {
