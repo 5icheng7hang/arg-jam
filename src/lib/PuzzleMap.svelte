@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import type { AMapMapInstance, AMapMarkerInstance } from './amap';
   import { loadAMap, resolveCoordinates } from './amap';
 
@@ -7,9 +7,10 @@
     latitude?: string;
     longitude?: string;
     title: string;
+    active?: boolean;
   }
 
-  let { latitude, longitude, title }: Props = $props();
+  let { latitude, longitude, title, active = false }: Props = $props();
 
   let mapContainer = $state<HTMLDivElement | null>(null);
   let map: AMapMapInstance | null = null;
@@ -19,10 +20,18 @@
 
   const coordinateResult = $derived(resolveCoordinates(longitude, latitude));
 
+  function clearMap() {
+    marker?.setMap(null);
+    marker = null;
+    map?.destroy();
+    map = null;
+  }
+
   async function initializeMap() {
     if (!mapContainer) return;
 
     if (coordinateResult.reason !== 'ok' || !coordinateResult.coordinates) {
+      clearMap();
       status = 'fallback';
       message = coordinateResult.message;
       return;
@@ -35,7 +44,7 @@
       const AMap = await loadAMap();
       const { latitude: lat, longitude: lng } = coordinateResult.coordinates;
 
-      map?.destroy();
+      clearMap();
       map = new AMap.Map(mapContainer, {
         zoom: 9,
         center: [lng, lat],
@@ -58,19 +67,36 @@
       map.setFitView([marker]);
       status = 'ready';
     } catch (error) {
+      clearMap();
       status = 'fallback';
       message = error instanceof Error ? error.message : 'Unable to load the map.';
     }
   }
 
-  onMount(() => {
-    void initializeMap();
+  async function syncVisibleMap() {
+    if (!active || !map) return;
+    await tick();
+    map.resize();
+    if (marker) {
+      map.setFitView([marker]);
+    }
+  }
 
+  $effect(() => {
+    latitude;
+    longitude;
+    title;
+    void initializeMap();
+  });
+
+  $effect(() => {
+    active;
+    void syncVisibleMap();
+  });
+
+  onMount(() => {
     return () => {
-      marker?.setMap(null);
-      map?.destroy();
-      marker = null;
-      map = null;
+      clearMap();
     };
   });
 </script>

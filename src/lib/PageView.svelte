@@ -177,13 +177,12 @@
       <button class="map-close" onclick={() => showMap = false}>CLOSE</button>
     </div>
     <div class="map-body">
-      {#if showMap}
-        <PuzzleMap
-          title={`Puzzle ${page.id.replace('page-', '')} location`}
-          longitude={page.meta?.longitude}
-          latitude={page.meta?.latitude}
-        />
-      {/if}
+      <PuzzleMap
+        active={showMap}
+        title={`Puzzle ${page.id.replace('page-', '')} location`}
+        longitude={page.meta?.longitude}
+        latitude={page.meta?.latitude}
+      />
     </div>
   </div>
 </div>
@@ -293,7 +292,7 @@
     flex: 1;
     padding: 20px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     overflow-y: auto;
   }
@@ -689,6 +688,7 @@
 
     .map-body {
       padding: 12px;
+      align-items: center;
     }
   }
 </style>

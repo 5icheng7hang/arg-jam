@@ -25,6 +25,7 @@ export interface AMapMarkerConstructor {
 export interface AMapMapInstance {
   add(target: AMapMarkerInstance): void;
   destroy(): void;
+  resize(): void;
   setFitView(items?: AMapMarkerInstance[]): void;
 }
 
