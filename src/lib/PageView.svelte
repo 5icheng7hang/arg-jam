@@ -18,6 +18,14 @@
   // ── 地图显示状态 ──
   let showMap = $state(false);
 
+  // ── 打字机效果状态 ──
+  let typedLongitude = $state('');
+  let typedLatitude = $state('');
+  let typedCaptureTime = $state('');
+  let typedMission = $state('');
+  let typedSystemMessage = $state('');
+  let typedBriefing = $state('');
+
   let renderedMd = $derived(marked(page.markdown || ''));
 
   // ── 粒子逻辑容器引用 ──
@@ -63,6 +71,55 @@
       createParticle();
     }
     const interval = setInterval(createParticle, 150);
+
+    // ── 打字机效果 ──
+    const typewriterEffect = (text: string, onChar: (char: string) => void, delay: number = 50) => {
+      let index = 0;
+      const timer = setInterval(() => {
+        if (index < text.length) {
+          onChar((onChar as any).toString().slice(0, index + 1) || text[index]);
+          index++;
+        } else {
+          clearInterval(timer);
+        }
+      }, delay);
+      return timer;
+    };
+
+    let charIndex = 0;
+    const fullText = {
+      longitude: page.meta?.longitude || '—',
+      latitude: page.meta?.latitude || '—',
+      captureTime: page.meta?.captureTime || '公元xxx纪年',
+      mission: page.meta?.mission || '—',
+      systemMessage: page.meta?.systemMessage || '',
+      briefing: page.markdown || ''
+    };
+
+    const typewriteChar = () => {
+      const texts = [fullText.longitude, fullText.latitude, fullText.captureTime, fullText.mission, fullText.systemMessage, fullText.briefing];
+      const keys = ['typedLongitude', 'typedLatitude', 'typedCaptureTime', 'typedMission', 'typedSystemMessage', 'typedBriefing'];
+      
+      texts.forEach((text, i) => {
+        let idx = 0;
+        const timer = setInterval(() => {
+          if (idx <= text.length) {
+            if (i === 0) typedLongitude = text.slice(0, idx);
+            if (i === 1) typedLatitude = text.slice(0, idx);
+            if (i === 2) typedCaptureTime = text.slice(0, idx);
+            if (i === 3) typedMission = text.slice(0, idx);
+            if (i === 4) typedSystemMessage = text.slice(0, idx);
+            if (i === 5) typedBriefing = text.slice(0, idx);
+            idx++;
+          } else {
+            clearInterval(timer);
+          }
+        }, 100);
+      });
+    };
+
+    typewriteChar();
+
     return () => clearInterval(interval);
   });
 
@@ -109,24 +166,30 @@
       <div class="meta-grid">
         <div class="info-field">
           <span class="info-label">经度：</span>
-          <span class="info-value">{page.meta?.longitude || '—'}</span>
+          <span class="info-value">{typedLongitude}</span>
         </div>
         <div class="info-field">
           <span class="info-label">纬度：</span>
-          <span class="info-value">{page.meta?.latitude || '—'}</span>
+          <span class="info-value">{typedLatitude}</span>
         </div>
         <div class="info-field">
           <span class="info-label">拍摄时间：</span>
-          <span class="info-value">{page.meta?.captureTime || '公元xxx纪年'}</span>
+          <span class="info-value">{typedCaptureTime}</span>
         </div>
         <div class="info-field">
           <span class="info-label">任务目的：</span>
-          <span class="info-value">{page.meta?.mission || '—'}</span>
+          <span class="info-value">{typedMission}</span>
         </div>
       </div>
 
+      {#if typedSystemMessage}
+        <div class="system-message-panel">
+          <div class="system-message-content">{typedSystemMessage}</div>
+        </div>
+      {/if}
+
       <div class="md-content">
-        {@html renderedMd}
+        <div class="briefing-text">{typedBriefing}</div>
       </div>
     </div>
 
@@ -416,14 +479,34 @@
   }
 
   .info-label {
-    font-size: 11px;
-    color: #9fd700;
+    font-size: 12px;
+    color: #b8ff00;
     letter-spacing: 1px;
+    opacity: 1;
   }
 
   .info-value {
-    font-size: 13px;
+    font-size: 12px;
     color: #b8ff00;
+    font-family: 'Courier New', Courier, monospace;
+    min-height: 1em;
+    opacity: 1;
+  }
+
+  .system-message-panel {
+    padding: 12px 14px;
+    border-bottom: 1px solid #b8ff0022;
+    background: rgba(184, 255, 0, 0.05);
+  }
+
+  .system-message-content {
+    font-size: 12px;
+    color: #b8ff00;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    opacity: 1;
   }
 
   .controls-panel {
@@ -593,6 +676,14 @@
 
   .md-content :global(strong) {
     color: #b8ff00;
+  }
+
+  .briefing-text {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.7;
+    min-height: 1em;
   }
 
   .shaking {

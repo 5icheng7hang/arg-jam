@@ -50,6 +50,7 @@
   const intervals = new Set<number>();
 
   let sequenceStarted = false;
+  let waitingForClick = $state(true);
   let sliceSeed = 0;
   let lineSeed = 0;
 
@@ -155,6 +156,7 @@
     }
 
     sequenceStarted = true;
+    waitingForClick = false;
 
     schedule(() => {
       screenFlash = true;
@@ -179,7 +181,7 @@
   }
 
   onMount(() => {
-    startSequence();
+    // Wait for click to start sequence
   });
 
   onDestroy(() => {
@@ -187,7 +189,7 @@
   });
 </script>
 
-<div class="startup-shell" aria-hidden="true">
+<div class="startup-shell" aria-hidden="true" onclick={() => waitingForClick && startSequence()}>
   <div class="scanlines"></div>
 
   <div class="startup-main" class:hidden={!mainVisible}>
@@ -270,6 +272,7 @@
     isolation: isolate;
     z-index: 400;
     font-family: var(--hc-font);
+    cursor: pointer;
   }
 
   .startup-shell::before {
