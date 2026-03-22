@@ -1,5 +1,5 @@
 import type { PageData } from './types';
-import testImg from '../assets/test03.png';
+import testImg from '../assets/1.png';
 
 export const pages: PageData[] = [
   {
@@ -41,8 +41,8 @@ export const pages: PageData[] = [
       { type: 'input', label: 'Write the word', answer: 'zephyr' },
     ],
     meta: {
-      longitude: '139.6917°E',
-      latitude: '35.6895°N',
+      longitude: '113.2644°E',
+      latitude: '23.1291°N',
       captureTime: '公元2076纪年',
       mission: '追踪协议 Gamma-1',
     },
@@ -57,8 +57,8 @@ export const pages: PageData[] = [
       { type: 'input', label: 'Hidden letter', answer: 'quartz' },
     ],
     meta: {
-      longitude: '2.3522°E',
-      latitude: '48.8566°N',
+      longitude: '104.0665°E',
+      latitude: '30.5728°N',
       captureTime: '公元2103纪年',
       mission: '深渊协议 Delta-9',
     },
@@ -72,8 +72,8 @@ export const pages: PageData[] = [
       { type: 'input', label: 'Final answer', answer: 'nebula' },
     ],
     meta: {
-      longitude: '???',
-      latitude: '???',
+      longitude: '114.0579°E',
+      latitude: '22.5431°N',
       captureTime: '公元????纪年',
       mission: '最终阶段 Omega-0',
     },

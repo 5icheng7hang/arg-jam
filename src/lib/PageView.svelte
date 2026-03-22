@@ -2,7 +2,7 @@
   import type { PageData } from './types';
   import { marked } from 'marked';
   import { onMount } from 'svelte';
-  import Map from '../assets/map.png';
+  import PuzzleMap from './PuzzleMap.svelte';
 
   interface Props {
     page: PageData;
@@ -157,20 +157,33 @@
   </div>
 
   {#if showMap}
-    <div class="map-backdrop" onclick={() => showMap = false}></div>
+    <div
+      class="map-backdrop"
+      role="button"
+      tabindex="0"
+      aria-label="Close map panel"
+      onclick={() => showMap = false}
+      onkeydown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          showMap = false;
+        }
+      }}
+    ></div>
   {/if}
 
   <div class="map-panel" class:active={showMap}>
     <div class="map-header">
-      <span class="map-title">REGION_MAP_04</span>
+      <span class="map-title">REGION_MAP_{page.id.replace('page-', '').padStart(2, '0')}</span>
       <button class="map-close" onclick={() => showMap = false}>CLOSE</button>
     </div>
     <div class="map-body">
-      <img
-        src={Map}
-        alt="tactical map" 
-        class="map-image" 
-      />
+      {#if showMap}
+        <PuzzleMap
+          title={`Puzzle ${page.id.replace('page-', '')} location`}
+          longitude={page.meta?.longitude}
+          latitude={page.meta?.latitude}
+        />
+      {/if}
     </div>
   </div>
 </div>
@@ -280,26 +293,9 @@
     flex: 1;
     padding: 20px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-  }
-.map-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 确保图片填满正方形且不失真 */
-  }
-  .map-placeholder {
-    width: 100%;
-    height: 100%;
-    border: 1px solid #b8ff0044;
-    background: #050505;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #b8ff00;
-    font-size: 12px;
-    position: relative;
-    overflow: hidden;
+    overflow-y: auto;
   }
 
   /* ── 基础布局样式 ── */
@@ -690,12 +686,9 @@
     .map-panel {
       width: 85%;
     }
-    
-    .map-image {
-      width: 100%;
-      height: 100%;
-      /* 核心：图片会完整显示在长方形内，保持原比例  */
-      object-fit: contain; 
+
+    .map-body {
+      padding: 12px;
     }
   }
 </style>
