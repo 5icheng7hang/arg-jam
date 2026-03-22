@@ -364,7 +364,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 12px 16px 16px;
+    padding: 12px 32px 16px;
     align-items: stretch;
   }
 
@@ -630,7 +630,7 @@
     }
 
     .content-layout {
-      padding: 10px 14px 14px;
+      padding: 10px 28px 14px;
       gap: 10px;
     }
 
