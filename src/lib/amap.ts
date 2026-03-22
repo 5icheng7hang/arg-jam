@@ -49,6 +49,8 @@ declare global {
 }
 
 const AMAP_SCRIPT_ID = 'arg-jam-amap-script';
+const EARTH_SEMIMAJOR_AXIS = 6378245.0;
+const ECCENTRICITY_SQUARED = 0.00669342162296594323;
 const MAINLAND_CHINA_BOUNDS = {
   minLongitude: 73,
   maxLongitude: 135,
@@ -93,6 +95,75 @@ export function isMainlandChinaCoordinate(coordinates: ParsedCoordinate): boolea
   );
 }
 
+function transformLatitude(longitudeOffset: number, latitudeOffset: number): number {
+  let delta =
+    -100 +
+    2 * longitudeOffset +
+    3 * latitudeOffset +
+    0.2 * latitudeOffset * latitudeOffset +
+    0.1 * longitudeOffset * latitudeOffset +
+    0.2 * Math.sqrt(Math.abs(longitudeOffset));
+
+  delta +=
+    ((20 * Math.sin(6 * longitudeOffset * Math.PI) + 20 * Math.sin(2 * longitudeOffset * Math.PI)) * 2) /
+    3;
+  delta +=
+    ((20 * Math.sin(latitudeOffset * Math.PI) + 40 * Math.sin((latitudeOffset / 3) * Math.PI)) * 2) /
+    3;
+  delta +=
+    ((160 * Math.sin((latitudeOffset / 12) * Math.PI) + 320 * Math.sin((latitudeOffset * Math.PI) / 30)) * 2) /
+    3;
+
+  return delta;
+}
+
+function transformLongitude(longitudeOffset: number, latitudeOffset: number): number {
+  let delta =
+    300 +
+    longitudeOffset +
+    2 * latitudeOffset +
+    0.1 * longitudeOffset * longitudeOffset +
+    0.1 * longitudeOffset * latitudeOffset +
+    0.1 * Math.sqrt(Math.abs(longitudeOffset));
+
+  delta +=
+    ((20 * Math.sin(6 * longitudeOffset * Math.PI) + 20 * Math.sin(2 * longitudeOffset * Math.PI)) * 2) /
+    3;
+  delta +=
+    ((20 * Math.sin(longitudeOffset * Math.PI) + 40 * Math.sin((longitudeOffset / 3) * Math.PI)) * 2) /
+    3;
+  delta +=
+    ((150 * Math.sin((longitudeOffset / 12) * Math.PI) + 300 * Math.sin((longitudeOffset / 30) * Math.PI)) * 2) /
+    3;
+
+  return delta;
+}
+
+export function convertWgs84ToGcj02(coordinates: ParsedCoordinate): ParsedCoordinate {
+  if (!isMainlandChinaCoordinate(coordinates)) {
+    return coordinates;
+  }
+
+  const longitudeOffset = coordinates.longitude - 105;
+  const latitudeOffset = coordinates.latitude - 35;
+  const latitudeRadians = (coordinates.latitude / 180) * Math.PI;
+  const sine = Math.sin(latitudeRadians);
+  const magic = 1 - ECCENTRICITY_SQUARED * sine * sine;
+  const sqrtMagic = Math.sqrt(magic);
+
+  const latitudeDelta =
+    (transformLatitude(longitudeOffset, latitudeOffset) * 180) /
+    (((EARTH_SEMIMAJOR_AXIS * (1 - ECCENTRICITY_SQUARED)) / (magic * sqrtMagic)) * Math.PI);
+  const longitudeDelta =
+    (transformLongitude(longitudeOffset, latitudeOffset) * 180) /
+    ((EARTH_SEMIMAJOR_AXIS / sqrtMagic) * Math.cos(latitudeRadians) * Math.PI);
+
+  return {
+    latitude: coordinates.latitude + latitudeDelta,
+    longitude: coordinates.longitude + longitudeDelta,
+  };
+}
+
 export function resolveCoordinates(longitude: string | undefined, latitude: string | undefined): CoordinateResult {
   if (!longitude || !latitude || longitude.includes('?') || latitude.includes('?')) {
     return {
@@ -127,7 +198,7 @@ export function resolveCoordinates(longitude: string | undefined, latitude: stri
   }
 
   return {
-    coordinates,
+    coordinates: convertWgs84ToGcj02(coordinates),
     reason: 'ok',
     message: 'Coordinates are available.',
   };

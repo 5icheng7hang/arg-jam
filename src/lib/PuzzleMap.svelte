@@ -60,7 +60,7 @@
       marker = new AMap.Marker({
         position: [lng, lat],
         title,
-        offset: new AMap.Pixel(0, 0),
+        anchor: 'bottom-center',
       });
 
       map.add(marker);

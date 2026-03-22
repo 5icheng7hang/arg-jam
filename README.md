@@ -65,6 +65,7 @@ For Vercel, add the same two variables in the project environment settings and r
 Notes:
 
 - Keep the real key and security code out of source control.
+- Photo or GPS EXIF coordinates are typically WGS84; the app converts mainland China coordinates to GCJ-02 before placing markers on AMap.
 - The current implementation only places precise markers for mainland China puzzle coordinates.
 - Puzzles with unknown or out-of-scope coordinates show a fallback state instead of a broken map.
 
