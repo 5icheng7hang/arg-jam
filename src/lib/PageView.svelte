@@ -231,7 +231,7 @@
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0);
-    z-index: 100;
+    z-index: 1000;
     backdrop-filter: blur(4px);
   }
 
@@ -243,7 +243,7 @@
     height: 100dvh;
     background: #11111132;
     border-left: 2px solid #b8ff00;
-    z-index: 101;
+    z-index: 1001;
     display: flex;
     flex-direction: column;
     transition: right 0.4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -307,12 +307,14 @@
 
   /* ── 基础布局样式 ── */
   .page-container {
+      --top-bar-offset: 42px;
     position: relative;
     display: flex;
     flex-direction: column;
     height: 100dvh;
     width: 100%;
     overflow: auto;
+      padding-top: var(--top-bar-offset);
     background: #000;
     color: #b8ff00;
   }
@@ -323,9 +325,11 @@
   }
 
   .top-bar {
-    position:sticky;
-    top:0;
-    z-index:1000;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 900;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -618,6 +622,7 @@
 
   @media (max-width: 640px) {
     .page-container {
+      --top-bar-offset: 78px;
       min-height: 100dvh;
       height: auto;
       overflow-x: hidden;
