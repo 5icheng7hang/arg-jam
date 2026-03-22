@@ -9,7 +9,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -35,7 +35,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -61,7 +61,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -87,7 +87,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -113,7 +113,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -141,7 +141,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -167,7 +167,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -193,7 +193,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -219,7 +219,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
