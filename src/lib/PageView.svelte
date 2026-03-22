@@ -364,7 +364,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 12px;
+    padding: 12px 16px 16px;
     align-items: stretch;
   }
 
@@ -630,8 +630,8 @@
     }
 
     .content-layout {
-      padding: 8px;
-      gap: 8px;
+      padding: 10px 14px 14px;
+      gap: 10px;
     }
 
     .top-bar {
