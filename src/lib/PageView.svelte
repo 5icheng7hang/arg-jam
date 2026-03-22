@@ -30,17 +30,67 @@
 
   // ── 粒子逻辑容器引用 ──
   let particleContainer: HTMLDivElement;
+  let typewriterTimers: ReturnType<typeof setInterval>[] = [];
 
   function resetState() {
     answers = [];
     shaking = false;
     revealed = false;
-    showMap = false; 
+    showMap = false;
+    // 重置打字机效果状态
+    typedLongitude = '';
+    typedLatitude = '';
+    typedCaptureTime = '';
+    typedMission = '';
+    typedSystemMessage = '';
+    typedBriefing = '';
+  }
+
+  function startTypewriter() {
+    // 清理旧的打字机定时器
+    typewriterTimers.forEach(timer => clearInterval(timer));
+    typewriterTimers = [];
+
+    // 重置打字机状态
+    resetState();
+
+    const fullText = {
+      longitude: page.meta?.longitude || '—',
+      latitude: page.meta?.latitude || '—',
+      captureTime: page.meta?.captureTime || '公元xxx纪年',
+      mission: page.meta?.mission || '—',
+      systemMessage: page.meta?.systemMessage || '',
+      briefing: page.markdown || ''
+    };
+
+    const typewriteChar = () => {
+      const texts = [fullText.longitude, fullText.latitude, fullText.captureTime, fullText.mission, fullText.systemMessage, fullText.briefing];
+      
+      texts.forEach((text, i) => {
+        let idx = 0;
+        const timer = setInterval(() => {
+          if (idx <= text.length) {
+            if (i === 0) typedLongitude = text.slice(0, idx);
+            if (i === 1) typedLatitude = text.slice(0, idx);
+            if (i === 2) typedCaptureTime = text.slice(0, idx);
+            if (i === 3) typedMission = text.slice(0, idx);
+            if (i === 4) typedSystemMessage = text.slice(0, idx);
+            if (i === 5) typedBriefing = text.slice(0, idx);
+            idx++;
+          } else {
+            clearInterval(timer);
+          }
+        }, 50);
+        typewriterTimers.push(timer);
+      });
+    };
+
+    typewriteChar();
   }
 
   $effect(() => {
     page.id;
-    resetState();
+    startTypewriter();
   });
 
   // ── 绿色 + 粒子生成 ──
@@ -71,54 +121,6 @@
       createParticle();
     }
     const interval = setInterval(createParticle, 150);
-
-    // ── 打字机效果 ──
-    const typewriterEffect = (text: string, onChar: (char: string) => void, delay: number = 50) => {
-      let index = 0;
-      const timer = setInterval(() => {
-        if (index < text.length) {
-          onChar((onChar as any).toString().slice(0, index + 1) || text[index]);
-          index++;
-        } else {
-          clearInterval(timer);
-        }
-      }, delay);
-      return timer;
-    };
-
-    let charIndex = 0;
-    const fullText = {
-      longitude: page.meta?.longitude || '—',
-      latitude: page.meta?.latitude || '—',
-      captureTime: page.meta?.captureTime || '公元xxx纪年',
-      mission: page.meta?.mission || '—',
-      systemMessage: page.meta?.systemMessage || '',
-      briefing: page.markdown || ''
-    };
-
-    const typewriteChar = () => {
-      const texts = [fullText.longitude, fullText.latitude, fullText.captureTime, fullText.mission, fullText.systemMessage, fullText.briefing];
-      const keys = ['typedLongitude', 'typedLatitude', 'typedCaptureTime', 'typedMission', 'typedSystemMessage', 'typedBriefing'];
-      
-      texts.forEach((text, i) => {
-        let idx = 0;
-        const timer = setInterval(() => {
-          if (idx <= text.length) {
-            if (i === 0) typedLongitude = text.slice(0, idx);
-            if (i === 1) typedLatitude = text.slice(0, idx);
-            if (i === 2) typedCaptureTime = text.slice(0, idx);
-            if (i === 3) typedMission = text.slice(0, idx);
-            if (i === 4) typedSystemMessage = text.slice(0, idx);
-            if (i === 5) typedBriefing = text.slice(0, idx);
-            idx++;
-          } else {
-            clearInterval(timer);
-          }
-        }, 100);
-      });
-    };
-
-    typewriteChar();
 
     return () => clearInterval(interval);
   });
@@ -189,7 +191,7 @@
       {/if}
 
       <div class="md-content">
-        <div class="briefing-text">{typedBriefing}</div>
+        {@html marked(typedBriefing)}
       </div>
     </div>
 
@@ -676,14 +678,6 @@
 
   .md-content :global(strong) {
     color: #b8ff00;
-  }
-
-  .briefing-text {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    font-family: 'Courier New', Courier, monospace;
-    line-height: 1.7;
-    min-height: 1em;
   }
 
   .shaking {
