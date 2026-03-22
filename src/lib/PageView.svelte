@@ -2,7 +2,7 @@
   import type { PageData } from './types';
   import { marked } from 'marked';
   import { onMount } from 'svelte';
-  import Map from '../assets/map.png';
+  import PuzzleMap from './PuzzleMap.svelte';
 
   interface Props {
     page: PageData;
@@ -50,7 +50,6 @@
     
     const duration = Math.random() * 7 + 3;
     particle.style.animationDuration = `${duration}s`;
-    particle.style.opacity = (Math.random() * 0.8 + 0.2).toString();
     
     particleContainer.appendChild(particle);
 
@@ -158,19 +157,31 @@
   </div>
 
   {#if showMap}
-    <div class="map-backdrop" onclick={() => showMap = false}></div>
+    <div
+      class="map-backdrop"
+      role="button"
+      tabindex="0"
+      aria-label="Close map panel"
+      onclick={() => showMap = false}
+      onkeydown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          showMap = false;
+        }
+      }}
+    ></div>
   {/if}
 
   <div class="map-panel" class:active={showMap}>
     <div class="map-header">
-      <span class="map-title">REGION_MAP_04</span>
+      <span class="map-title">REGION_MAP_{page.id.replace('page-', '').padStart(2, '0')}</span>
       <button class="map-close" onclick={() => showMap = false}>CLOSE</button>
     </div>
     <div class="map-body">
-      <img
-        src={Map}
-        alt="tactical map" 
-        class="map-image" 
+      <PuzzleMap
+        active={showMap}
+        title={`Puzzle ${page.id.replace('page-', '')} location`}
+        longitude={page.meta?.longitude}
+        latitude={page.meta?.latitude}
       />
     </div>
   </div>
@@ -202,10 +213,8 @@
   }
 
   @keyframes floatDiagonal {
-    0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 0.8; }
-    100% { transform: translate(300px, -120vh) rotate(180deg); opacity: 0; }
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(300px, -120vh) rotate(180deg); }
   }
 
   /* ── 地图功能样式 ── */
@@ -231,7 +240,7 @@
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0);
-    z-index: 100;
+    z-index: 1000;
     backdrop-filter: blur(4px);
   }
 
@@ -243,7 +252,7 @@
     height: 100dvh;
     background: #11111132;
     border-left: 2px solid #b8ff00;
-    z-index: 101;
+    z-index: 1001;
     display: flex;
     flex-direction: column;
     transition: right 0.4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -285,34 +294,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-.map-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 确保图片填满正方形且不失真 */
-  }
-  .map-placeholder {
-    width: 100%;
-    height: 100%;
-    border: 1px solid #b8ff0044;
-    background: #050505;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #b8ff00;
-    font-size: 12px;
-    position: relative;
-    overflow: hidden;
+    overflow-y: auto;
   }
 
   /* ── 基础布局样式 ── */
   .page-container {
+      --top-bar-offset: 42px;
     position: relative;
     display: flex;
     flex-direction: column;
     height: 100dvh;
     width: 100%;
     overflow: auto;
+      padding-top: var(--top-bar-offset);
     background: #000;
     color: #b8ff00;
   }
@@ -323,9 +317,11 @@
   }
 
   .top-bar {
-    position:sticky;
-    top:0;
-    z-index:1000;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 900;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -360,7 +356,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 12px;
+    padding: 12px 32px 16px;
     align-items: stretch;
   }
 
@@ -417,9 +413,8 @@
 
   .info-label {
     font-size: 11px;
-    color: #b8ff00;
+    color: #9fd700;
     letter-spacing: 1px;
-    opacity: 0.7;
   }
 
   .info-value {
@@ -459,8 +454,7 @@
 
   .control-label-text {
     font-size: 11px;
-    color: #b8ff00;
-    opacity: 0.8;
+    color: #a8e000;
     letter-spacing: 0.5px;
   }
 
@@ -484,7 +478,7 @@
   }
 
   .control-input::placeholder {
-    color: #b8ff0033;
+    color: #6b9100;
   }
 
   .control-select {
@@ -536,17 +530,16 @@
   }
 
   .md-panel-label {
-    font-size: 10px;
+    font-size: 13px;
     letter-spacing: 2px;
     color: #b8ff00;
-    opacity: 0.6;
   }
 
   .md-content {
     padding: 12px 14px;
     font-size: 12px;
     line-height: 1.7;
-    color: #b8ff00cc;
+    color: #b8ff00;
     overflow: visible;
     min-height: 0;
   }
@@ -590,7 +583,7 @@
     border-left: 2px solid #b8ff0066;
     padding-left: 10px;
     margin: 8px 0;
-    color: #b8ff0099;
+    color: #95ca00;
     font-style: italic;
   }
 
@@ -618,6 +611,7 @@
 
   @media (max-width: 640px) {
     .page-container {
+      --top-bar-offset: 78px;
       min-height: 100dvh;
       height: auto;
       overflow-x: hidden;
@@ -625,8 +619,8 @@
     }
 
     .content-layout {
-      padding: 8px;
-      gap: 8px;
+      padding: 10px 28px 14px;
+      gap: 10px;
     }
 
     .top-bar {
@@ -691,12 +685,10 @@
     .map-panel {
       width: 85%;
     }
-    
-    .map-image {
-      width: 100%;
-      height: 100%;
-      /* 核心：图片会完整显示在长方形内，保持原比例  */
-      object-fit: contain; 
+
+    .map-body {
+      padding: 12px;
+      align-items: center;
     }
   }
 </style>

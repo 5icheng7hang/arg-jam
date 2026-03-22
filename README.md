@@ -1,47 +1,80 @@
-# Svelte + TS + Vite
+# ARG Jam
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+## Game content
 
-## Recommended IDE Setup
+The game content is now driven by [game-content.yaml](/Users/sichnegjacques/_Projects/arg-jam/game-content.yaml).
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+Edit that file to change:
 
-## Need an official Svelte framework?
+- page count and page order
+- page image file names
+- briefing markdown
+- input/dropdown questions
+- correct answers
+- map metadata
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+Rules:
 
-## Technical considerations
+- Put page images in `src/assets/`
+- Reference the image by filename only, for example `3.png`
+- Use `briefing: |` for multi-line markdown text
+- For dropdown controls, `options` must be a YAML list
 
-**Why use this over SvelteKit?**
+Example:
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+```yaml
+pages:
+	- id: page-1
+		image: 1.png
+		meta:
+			longitude: 121.4737°E
+			latitude: 31.2304°N
+			captureTime: 公元2084纪年
+			mission: 区域扫描 Alpha-7
+		controls:
+			- type: input
+				label: What is hidden here?
+				answer: mango
+			- type: dropdown
+				label: Pick the color
+				options:
+					- crimson
+					- azure
+					- olive
+					- ivory
+				answer: azure
+		briefing: |
+			# 任务简报 #01
 
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
-
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
-
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
-
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
-
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `allowJs` in the TS template?**
-
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+			这里写 briefing markdown。
 ```
+
+## Map configuration
+
+The `LOCATE_MAP` panel uses AMap (Gaode) in the browser and requires Vite client environment variables.
+
+Create a local `.env` file with:
+
+```bash
+VITE_AMAP_API_KEY=your_amap_web_key
+VITE_AMAP_SECURITY_CODE=your_amap_security_code
+```
+
+For Vercel, add the same two variables in the project environment settings and redeploy.
+
+Notes:
+
+- Keep the real key and security code out of source control.
+- Photo or GPS EXIF coordinates are typically WGS84; the app converts mainland China coordinates to GCJ-02 before placing markers on AMap.
+- The current implementation only places precise markers for mainland China puzzle coordinates.
+- Puzzles with unknown or out-of-scope coordinates show a fallback state instead of a broken map.
+
+## Validation
+
+Run:
+
+```bash
+npm run check
+```
+
+Then open `LOCATE_MAP` on page 1 and page 2 to verify the square map and marker rendering.

@@ -1,7 +1,9 @@
 <script lang="ts">
+  import StartupIntro from './lib/StartupIntro.svelte';
   import PageView from './lib/PageView.svelte';
   import { pages } from './lib/data';
 
+  let showIntro = $state(true);
   let currentPageIndex = $state(0);
   let completed = $state(false);
 
@@ -14,7 +16,9 @@
   }
 </script>
 
-{#if completed}
+{#if showIntro}
+  <StartupIntro oncomplete={() => { showIntro = false; }} />
+{:else if completed}
   <div class="completed">
     <div class="completed-card">
       <div class="card-title">
@@ -80,7 +84,7 @@
 
   .card-body {
     font-size: 14px;
-    color: #b8ff00cc;
+    color: #b8ff00;
   }
 
   .restart-btn {

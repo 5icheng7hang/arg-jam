@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCRIDER-SYSTEM - Pure Green Glitch</title>
+    <style>
+        /* 全局样式 - 复古终端感 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+            font-family: 'Courier New', Courier, monospace; /* 复古等宽字体 */
+            color: #d8ff00; /* 亮霓虹绿 */
+            user-select: none; /* 防止文本选择 */
+            cursor: pointer; /* 点击提示 */
+        }
+
+        #app {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 屏幕 CRT 扫描线效果 */
+        #scanlines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            background-size: 100% 2px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* 初始图片样式 */
+        #main-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        #rider-image {
+            max-width: 90%;
+            max-height: 90%;
+            transition: opacity 0.3s ease;
+        }
+
+        /* 像素 Glitch 闪烁效果 (CSS 动画) */
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before, .glitch::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('image_0.png') no-repeat center center / contain;
+            opacity: 0.8;
+            z-index: -1;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: 2px 0 #ff00c1; /* 红色/洋红色通道 (仅保留在初始图片闪烁中) */
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 0.5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00fff9; /* 青色通道 (仅保留在初始图片闪烁中) */
+            clip: rect(85px, 450px, 140px, 0);
+            animation: glitch-anim2 0.5s infinite linear alternate-reverse;
+        }
+
+        /* 整体屏幕闪烁动画 */
+        .screen-flash {
+            animation: screen-flash-anim 0.3s ease-out;
+        }
+
+        /* 卡片覆盖层样式 */
+        #card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            z-index: 3; 
+            opacity: 0;
+            transition: opacity 0.5s ease; 
+        }
+
+        /* 卡片样式 */
+        #glitch-card {
+            width: 90vw;
+            height: 90vh;
+            max-width: 800px;
+            max-height: 500px;
+            background-color: #CCFF33; 
+            color: #000000; 
+            padding: 2rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            transform-origin: center;
+            opacity: 0;
+            transform: scale(1.1);
+        }
+
+        #glitch-card::after {
+            content: "";
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle at center, #000000 20%, transparent 60%),
+                        radial-gradient(circle at center, #00000011 30%, transparent 70%);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        #glitch-card h2, #glitch-card p {
+            margin: 0;
+            font-size: 2rem;
+            line-height: 1.2;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* 卡片滑入和淡入动画 */
+        @keyframes card-slice-slide {
+            0% { transform: translate(calc(Math.random() - 0.5 * 1000px), calc(Math.random() - 0.5 * 1000px)) scale(0.5); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translate(0, 0) scale(1); opacity: 1; }
+        }
+
+        .slice {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #CCFF33;
+            color: black;
+            overflow: hidden;
+            pointer-events: none;
+            clip-path: inset(0 0 0 0);
+            z-index: 100;
+            animation: card-slice-slide 1s forwards cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* 代码覆盖层样式 */
+        #code-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index: 4; 
+            padding: 20px;
+            box-sizing: border-box;
+            display: none; 
+            flex-direction: column;
+            justify-content: flex-end; 
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .code-line {
+            font-size: 1.2rem;
+            line-height: 1.4;
+            margin: 0;
+            white-space: pre-wrap;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: code-line-in 0.05s forwards; 
+            color: #d8ff00;
+        }
+
+        @keyframes code-line-in {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 竖线条花屏容器 */
+        #glitch-lines-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100; /* 最顶层 */
+            pointer-events: none;
+            display: none; /* 初始隐藏 */
+            transition: background-color 0.05s; /* 用于背景快速闪烁 */
+        }
+
+        /* 单根竖线样式 */
+        .vertical-line {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            background-color: #d8ff00; /* 纯正的霓虹绿 */
+            opacity: 0.8;
+            animation: line-flicker 0.1s infinite alternate;
+        }
+
+        @keyframes line-flicker {
+            0% { opacity: 0.3; transform: scaleX(0.9); }
+            100% { opacity: 1; transform: scaleX(1.1); }
+        }
+
+        /* Glitch 关键帧 1 */
+        @keyframes glitch-anim {
+            0% { clip: rect(44px, 9999px, 56px, 0); transform: skew(0.5deg); }
+            5% { clip: rect(98px, 9999px, 12px, 0); transform: skew(-0.5deg); }
+            10% { clip: rect(6px, 9999px, 88px, 0); transform: skew(0deg); }
+            100% { clip: rect(60px, 9999px, 5px, 0); transform: skew(0deg); }
+        }
+
+        /* Glitch 关键帧 2 */
+        @keyframes glitch-anim2 {
+            0% { clip: rect(85px, 9999px, 140px, 0); transform: skew(-0.5deg); }
+            5% { clip: rect(10px, 9999px, 99px, 0); transform: skew(0.5deg); }
+            10% { clip: rect(67px, 9999px, 33px, 0); transform: skew(0deg); }
+            100% { clip: rect(90px, 9999px, 45px, 0); transform: skew(0deg); }
+        }
+
+        /* 屏幕闪烁关键帧 */
+        @keyframes screen-flash-anim {
+            0% { background-color: black; }
+            50% { background-color: rgba(216, 255, 0, 0.2); }
+            100% { background-color: black; }
+        }
+
+        /* 初始加载界面样式 */
+        #loader {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: black;
+            z-index: 100;
+            display: flex; justify-content: center; align-items: center;
+        }
+    </style>
+</head>
+<body onclick="triggerGlitchEffect()">
+
+    <div id="loader"><p>CLICK TO INITIALIZE ARCRIDER-SYSTEM</p></div>
+
+    <div id="app">
+        <div id="scanlines"></div>
+        
+        <div id="main-container">
+            <img id="rider-image" src="image_0.png" alt="ARCRIDER-SYSTEM">
+        </div>
+
+        <div id="card-overlay">
+            <div id="glitch-card">
+                <h2>USER INTERFACE DESIGNER</h2>
+                <p>WEBFLOW DEVELOPER & GLITCH ARTIST</p>
+            </div>
+        </div>
+
+        <div id="code-overlay">
+            <div id="code-content"></div>
+        </div>
+        
+        <div id="glitch-lines-container"></div>
+    </div>
+
+    <script>
+        const codeLines = [
+            "[SYSTEM STATUS] REBOOTING ARCRIDER-SYSTEM...",
+            "Kernel integrity check... [OK]",
+            ">> WARNING: UNSANCTIONED ACCESS DETECTED",
+            "Data stream corruption in Sector 741.",
+            "Attempting system purge... [FAILED]",
+            ">> CRITICAL: Apostate System interference.",
+            "Initializing S'pht translator module...",
+            "TargetRelic V.2 containment compromised.",
+            ">> MANUAL OVERRIDE REQUIRED FOR HUNT PROTOCOL.",
+            "Executing secure data wipe sequence.",
+            "10...",
+            "9...",
+            "8...",
+            "7...",
+            ">> System Integrity: 88% and falling.",
+            "HUNT COLLECTION: Hive 4 sector corrupted.",
+            ">> Hunt collection: FAILED",
+            "FATAL ERROR: DISPLAY DRIVER CRASH...",
+            "REBOOTING..."
+        ];
+
+        const loader = document.getElementById('loader');
+        const mainContainer = document.getElementById('main-container');
+        const riderImage = document.getElementById('rider-image');
+        const cardOverlay = document.getElementById('card-overlay');
+        const glitchCard = document.getElementById('glitch-card');
+        const codeOverlay = document.getElementById('code-overlay');
+        const codeContent = document.getElementById('code-content');
+        const linesContainer = document.getElementById('glitch-lines-container');
+        const app = document.getElementById('app');
+
+        let isAnimating = false;
+
+        function triggerGlitchEffect() {
+            if (isAnimating) return; 
+            isAnimating = true;
+
+            loader.style.display = 'none';
+
+            app.classList.add('screen-flash');
+            setTimeout(() => app.classList.remove('screen-flash'), 300);
+
+            riderImage.classList.add('glitch');
+            
+            setTimeout(() => {
+                mainContainer.style.opacity = '0';
+                cardOverlay.style.display = 'flex';
+                cardOverlay.style.opacity = '1';
+
+                startCardSliceAnimation();
+                
+                setTimeout(() => {
+                    cardOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        cardOverlay.style.display = 'none';
+                        codeOverlay.style.display = 'flex';
+                        codeContent.innerHTML = ''; 
+                        displayCodeLines(0);
+                    }, 50);
+                }, 300); 
+
+            }, 800); 
+        }
+
+        function startCardSliceAnimation() {
+            const cardHTML = glitchCard.innerHTML;
+            const sliceCount = 10; 
+
+            for (let i = 0; i < sliceCount; i++) {
+                const slice = document.createElement('div');
+                slice.classList.add('slice');
+                slice.innerHTML = cardHTML;
+
+                const top = (i / sliceCount) * 100;
+                const bottom = ((i + 1) / sliceCount) * 100;
+                slice.style.clipPath = `inset(${top}% 0 ${100 - bottom}% 0)`;
+
+                const slideX = (Math.random() - 0.5) * 800 + 'px'; 
+                const slideY = (Math.random() - 0.5) * 500 + 'px'; 
+                slice.style.setProperty('--slide-x', slideX);
+                slice.style.setProperty('--slide-y', slideY);
+
+                slice.style.animationDelay = (Math.random() * 0.2) + 's';
+
+                glitchCard.appendChild(slice);
+
+                slice.addEventListener('animationend', () => {
+                    slice.remove();
+                });
+            }
+        }
+
+        function displayCodeLines(index) {
+            if (index < codeLines.length) {
+                const lineText = codeLines[index];
+                const p = document.createElement('p');
+                p.classList.add('code-line');
+                p.textContent = lineText;
+                codeContent.appendChild(p);
+
+                codeOverlay.scrollTop = codeOverlay.scrollHeight;
+
+                setTimeout(() => displayCodeLines(index + 1), 20); 
+
+            } else {
+                setTimeout(() => {
+                    startVerticalLinesGlitch();
+                }, 1000); 
+            }
+        }
+
+        // 纯绿色竖线花屏特效
+        function startVerticalLinesGlitch() {
+            linesContainer.style.display = 'block';
+            linesContainer.innerHTML = '';
+            
+            codeOverlay.style.opacity = '0.3'; 
+
+            let intervalCount = 0;
+            const maxIntervals = 50; // 花屏持续的帧数(约1.5秒)
+            
+            const glitchInterval = setInterval(() => {
+                // 每次生成多条竖线
+                for (let i = 0; i < 4; i++) {
+                    const line = document.createElement('div');
+                    line.classList.add('vertical-line');
+                    
+                    const leftPos = Math.random() * 100; // 0% 到 100%
+                    const width = Math.random() * 8 + 2; // 2vw 到 10vw 粗细不等
+                    
+                    line.style.left = leftPos + 'vw';
+                    line.style.width = width + 'vw';
+                    
+                    // 强制使用统一直出的霓虹绿，不再有白色或黄色
+                    line.style.backgroundColor = '#d8ff00';
+
+                    linesContainer.appendChild(line);
+                }
+
+                // 添加纯粹的暗绿色背景闪烁（代替之前的彩色滤镜倒置）
+                if (intervalCount % 4 === 0) {
+                    linesContainer.style.backgroundColor = Math.random() > 0.5 ? 'rgba(216, 255, 0, 0.15)' : 'transparent';
+                }
+
+                intervalCount++;
+
+                // 结束动画
+                if (intervalCount >= maxIntervals) {
+                    clearInterval(glitchInterval);
+                    
+                    // 最后来一下全屏纯绿高亮闪烁定格
+                    const fullCover = document.createElement('div');
+                    fullCover.style.position = 'absolute';
+                    fullCover.style.inset = '0';
+                    fullCover.style.backgroundColor = '#d8ff00';
+                    fullCover.style.zIndex = '101';
+                    linesContainer.appendChild(fullCover);
+                    
+                    linesContainer.style.backgroundColor = 'transparent';
+
+                    // 重置整个系统到初始状态
+                    setTimeout(() => {
+                        linesContainer.style.display = 'none';
+                        linesContainer.innerHTML = '';
+                        codeOverlay.style.display = 'none';
+                        codeOverlay.style.opacity = '1';
+                        mainContainer.style.opacity = '1';
+                        riderImage.classList.remove('glitch');
+                        codeContent.innerHTML = '';
+                        glitchCard.style.opacity = '1';
+                        loader.style.display = 'flex';
+                        isAnimating = false; // 允许重新触发
+                    }, 300); 
+                }
+            }, 30); 
+        }
+
+    </script>
+</body>
+</html>

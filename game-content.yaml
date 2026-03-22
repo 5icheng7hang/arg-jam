@@ -31,6 +31,28 @@ pages:
       - **区域编号**: `SEC-A7`
       - **威胁等级**: 低
 
+      longitude: 121.440855°E
+      latitude: 31.223228°N
+      captureTime: 公元2084纪年
+      mission: 区域扫描 Alpha-7
+    controls:
+      - type: input
+        label: 密码是1111
+        answer: "1111"
+      - type: dropdown
+        label: 你瞅啥
+        options:
+          - 没啥
+          - 瞅你咋地
+        answer: 瞅你咋地
+    briefing: |
+      # 任务简报 #01
+
+      瞅瞅
+
+      - 区域编号: `SEC-A7`
+      - 威胁等级: 低
+      - 备注: 初始校准阶段，注意噪声干扰。
 
   - id: page-2
     image: 2.png
@@ -42,7 +64,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -68,7 +90,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -94,7 +116,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -120,7 +142,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -148,7 +170,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -174,7 +196,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -200,7 +222,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
@@ -226,7 +248,7 @@ pages:
     controls:
       - type: input
         label: 密码是1111
-        answer: 1111
+        answer: "1111"
       - type: dropdown
         label: 你瞅啥
         options:
