@@ -8,20 +8,18 @@ pages:
       mission: 区域扫描 Alpha-7
     controls:
       - type: input
-        label: What is hidden here?
-        answer: mango
+        label: 密码是1111
+        answer: 1111
       - type: dropdown
-        label: Pick the color
+        label: 你瞅啥
         options:
-          - crimson
-          - azure
-          - olive
-          - ivory
-        answer: azure
+          - 没啥
+          - 瞅你咋地
+        answer: 瞅你咋地
     briefing: |
       # 任务简报 #01
 
-      目标区域已确认。请根据图像信息识别 **标记位置** 的内容。
+      瞅瞅
 
       - 区域编号: `SEC-A7`
       - 威胁等级: 低
@@ -36,19 +34,14 @@ pages:
       mission: 深层扫描 Beta-3
     controls:
       - type: input
-        label: Name the object
-        answer: prism
+        label: 密码是1111
+        answer: 1111
       - type: dropdown
-        label: How many?
+        label: 你瞅啥
         options:
-          - seven
-          - twelve
-          - three
-          - nine
-        answer: twelve
-      - type: input
-        label: What shape?
-        answer: helix
+          - 没啥
+          - 瞅你咋地
+        answer: 瞅你咋地
     briefing: |
       # 任务简报 #02
 
@@ -66,17 +59,15 @@ pages:
       captureTime: 公元2076纪年
       mission: 追踪协议 Gamma-1
     controls:
-      - type: dropdown
-        label: What animal?
-        options:
-          - otter
-          - falcon
-          - lynx
-          - bison
-        answer: falcon
       - type: input
-        label: Write the word
-        answer: zephyr
+        label: 密码是1111
+        answer: 1111
+      - type: dropdown
+        label: 你瞅啥
+        options:
+          - 没啥
+          - 瞅你咋地
+        answer: 瞅你咋地
     briefing: |
       # 任务简报 #03
 
@@ -95,19 +86,14 @@ pages:
       mission: 深渊协议 Delta-9
     controls:
       - type: input
-        label: Type the number
-        answer: phosphor
+        label: 密码是1111
+        answer: 1111
       - type: dropdown
-        label: Season?
+        label: 你瞅啥
         options:
-          - dusk
-          - solstice
-          - ember
-          - frost
-        answer: ember
-      - type: input
-        label: Hidden letter
-        answer: quartz
+          - 没啥
+          - 瞅你咋地
+        answer: 瞅你咋地
     briefing: |
       # 任务简报 #04
 
@@ -125,17 +111,15 @@ pages:
       captureTime: 公元????纪年
       mission: 最终阶段 Omega-0
     controls:
-      - type: dropdown
-        label: Material?
-        options:
-          - obsidian
-          - copper
-          - velvet
-          - marble
-        answer: obsidian
       - type: input
-        label: Final answer
-        answer: nebula
+        label: 密码是1111
+        answer: 1111
+      - type: dropdown
+        label: 你瞅啥
+        options:
+          - 没啥
+          - 瞅你咋地
+        answer: 瞅你咋地
     briefing: |
       # 最终简报 #05
 
@@ -156,19 +140,14 @@ pages:
       mission: 通道校准 Sigma-6
     controls:
       - type: input
-        label: Enter the district code
-        answer: lattice
+        label: 密码是1111
+        answer: 1111
       - type: dropdown
-        label: Which signal tier is active?
+        label: 你瞅啥
         options:
-          - amber
-          - cobalt
-          - lime
-          - silver
-        answer: lime
-      - type: input
-        label: Hidden keyword
-        answer: transit
+          - 没啥
+          - 瞅你咋地
+        answer: 瞅你咋地
     briefing: |
       # 任务简报 #06
 
@@ -186,17 +165,15 @@ pages:
       captureTime: 公元2094纪年
       mission: 街区扫描 Theta-2
     controls:
-      - type: dropdown
-        label: Select the anomaly class
-        options:
-          - relay
-          - canopy
-          - archive
-          - harbor
-        answer: relay
       - type: input
-        label: What is the access word?
-        answer: junction
+        label: 密码是1111
+        answer: 1111
+      - type: dropdown
+        label: 你瞅啥
+        options:
+          - 没啥
+          - 瞅你咋地
+        answer: 瞅你咋地
     briefing: |
       # 任务简报 #07
 
@@ -215,19 +192,14 @@ pages:
       mission: 立面识别 Kappa-4
     controls:
       - type: input
-        label: Name the highlighted form
-        answer: colonnade
+        label: 密码是1111
+        answer: 1111
       - type: dropdown
-        label: Which layer is compromised?
+        label: 你瞅啥
         options:
-          - facade
-          - basement
-          - skyline
-          - transit
-        answer: facade
-      - type: input
-        label: Final token
-        answer: vector
+          - 没啥
+          - 瞅你咋地
+        answer: 瞅你咋地
     briefing: |
       # 任务简报 #08
 
@@ -245,20 +217,15 @@ pages:
       captureTime: 公元2107纪年
       mission: 终端确认 Lambda-1
     controls:
+      - type: input
+        label: 密码是1111
+        answer: 1111
       - type: dropdown
-        label: Identify the active channel
+        label: 你瞅啥
         options:
-          - north
-          - delta
-          - prism
-          - echo
-        answer: delta
-      - type: input
-        label: Enter the closing phrase
-        answer: skyline
-      - type: input
-        label: Hidden marker
-        answer: orchard
+          - 没啥
+          - 瞅你咋地
+        answer: 瞅你咋地
     briefing: |
       # 任务简报 #09
 
