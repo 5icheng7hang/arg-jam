@@ -80,7 +80,7 @@
 
   .card-body {
     font-size: 14px;
-    color: #b8ff00cc;
+    color: #b8ff00;
   }
 
   .restart-btn {

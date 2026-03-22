@@ -50,7 +50,6 @@
     
     const duration = Math.random() * 7 + 3;
     particle.style.animationDuration = `${duration}s`;
-    particle.style.opacity = (Math.random() * 0.8 + 0.2).toString();
     
     particleContainer.appendChild(particle);
 
@@ -202,10 +201,8 @@
   }
 
   @keyframes floatDiagonal {
-    0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 0.8; }
-    100% { transform: translate(300px, -120vh) rotate(180deg); opacity: 0; }
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(300px, -120vh) rotate(180deg); }
   }
 
   /* ── 地图功能样式 ── */
@@ -421,9 +418,8 @@
 
   .info-label {
     font-size: 11px;
-    color: #b8ff00;
+    color: #9fd700;
     letter-spacing: 1px;
-    opacity: 0.7;
   }
 
   .info-value {
@@ -463,8 +459,7 @@
 
   .control-label-text {
     font-size: 11px;
-    color: #b8ff00;
-    opacity: 0.8;
+    color: #a8e000;
     letter-spacing: 0.5px;
   }
 
@@ -488,7 +483,7 @@
   }
 
   .control-input::placeholder {
-    color: #b8ff0033;
+    color: #6b9100;
   }
 
   .control-select {
@@ -540,17 +535,16 @@
   }
 
   .md-panel-label {
-    font-size: 10px;
+    font-size: 13px;
     letter-spacing: 2px;
     color: #b8ff00;
-    opacity: 0.6;
   }
 
   .md-content {
     padding: 12px 14px;
     font-size: 12px;
     line-height: 1.7;
-    color: #b8ff00cc;
+    color: #b8ff00;
     overflow: visible;
     min-height: 0;
   }
@@ -594,7 +588,7 @@
     border-left: 2px solid #b8ff0066;
     padding-left: 10px;
     margin: 8px 0;
-    color: #b8ff0099;
+    color: #95ca00;
     font-style: italic;
   }
 
