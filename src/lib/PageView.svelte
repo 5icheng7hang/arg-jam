@@ -80,7 +80,7 @@
           } else {
             clearInterval(timer);
           }
-        }, 50);
+        }, 25);
         typewriterTimers.push(timer);
       });
     };
