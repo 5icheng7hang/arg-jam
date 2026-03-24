@@ -138,7 +138,26 @@ function parseGameContent(raw: string): PageData[] {
     throw new Error('Invalid game-content.yaml: pages must be a non-empty array.');
   }
 
-  return config.pages.map(parsePage);
+  const pageIdSet = new Set<string>();
+  const pageImageSet = new Set<string>();
+
+  return config.pages.map((pageValue, pageIndex) => {
+    const page = expectObject(pageValue, `pages[${pageIndex}]`);
+
+    const id = expectString(page.id, `pages[${pageIndex}].id`);
+    if (pageIdSet.has(id)) {
+      throw new Error(`Invalid game-content.yaml: duplicate page id '${id}' at pages[${pageIndex}].`);
+    }
+    pageIdSet.add(id);
+
+    const image = expectString(page.image, `${id}.image`);
+    if (pageImageSet.has(image)) {
+      throw new Error(`Invalid game-content.yaml: duplicate image '${image}' used by page '${id}'.`);
+    }
+    pageImageSet.add(image);
+
+    return parsePage(pageValue, pageIndex);
+  });
 }
 
 export const pages: PageData[] = parseGameContent(gameContentRaw);
