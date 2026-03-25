@@ -12,11 +12,13 @@ pages:
         ⚠️ 注意：请查看右上角地图以获取目标地点更新
         正在同步本地区域网络... 正在下载旧世界城市变动日志... 100%
     controls:
-      - type: input
+      - type: dropdown
         label: 骇入该实体附近的部门终端以获取访问权限
-        answer:
-          - "中国建设银行"
-          - "holograven"
+        options:
+          - 中国建设银行
+          - 中国人民银行
+          - 中国农业银行
+        answer: 中国建设银行
     briefing: |
       # 任务系统 #01：开始您的猎人之旅？
 
@@ -77,9 +79,11 @@ pages:
     controls:
       - type: input
         label: 该建筑体拥有金色五角星数量为
-        answer:
-          - "3"
-          - "holograven"
+        options:
+          - 1
+          - 2
+          - 3
+        answer: 3
     briefing: |
       # 任务简报 #03
       《新千年城市备忘录》有言：灯之长生者以图书馆为庇护所，自二十世纪以来，其数量已随纸媒的消亡而骤减。然而历经两百年，仍有少量长生者在城市中活动，试图秘密与各地教团建立连接，展开无法被网络监控的未知危险活动。
@@ -196,10 +200,12 @@ pages:
       mission: 建筑体识别
     controls:
       - type: input
-        label: 此建筑的真实名称是
-        answer:
-          - "圣三一堂"
-          - "holograven"
+        label: 此建筑的类型是
+        options:
+          - 摩门教堂
+          - 天主教堂
+          - 圣三一堂
+        answer: 圣三一堂
     briefing: |
       # 任务简报 #08
       该教堂是位于城市中心的旧世界教徒的集会所，保留完整，位于商业街区的核心位置，周围环境却异常安静，缺乏人类活动迹象。

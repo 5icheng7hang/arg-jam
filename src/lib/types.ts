@@ -3,8 +3,8 @@ export interface Control {
   label: string;
   /** Options for dropdown type */
   options?: string[];
-  /** The correct answer(s) for validation */
-  answer: string | string[];
+  /** The correct answer for validation */
+  answer: string;
 }
 
 export interface PageData {
@@ -20,5 +20,6 @@ export interface PageData {
     latitude?: string;
     captureTime?: string;
     mission?: string;
+    systemMessage?: string;
   };
 }
